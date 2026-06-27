@@ -1,0 +1,96 @@
+{
+  "dataset": "UCI Statlog German Credit Data",
+  "sample_size": 1000,
+  "bad_rate": 0.3,
+  "best_model": "Logistic Regression",
+  "model_metrics": [
+    {
+      "Model": "Logistic Regression",
+      "AUC": 0.8011,
+      "KS": 0.4937,
+      "Brier": 0.1574,
+      "CV AUC mean": 0.764,
+      "CV AUC std": 0.0241,
+      "Cost threshold": 0.245,
+      "Expected cost": 0.4967
+    },
+    {
+      "Model": "XGBoost Challenger",
+      "AUC": 0.7834,
+      "KS": 0.4317,
+      "Brier": 0.1659,
+      "CV AUC mean": 0.7713,
+      "CV AUC std": 0.0354,
+      "Cost threshold": 0.14,
+      "Expected cost": 0.51
+    }
+  ],
+  "stress_results": [
+    {
+      "Scenario": "Base",
+      "Mean PD": 0.30075002030369286,
+      "Portfolio EAD": 3271258.0,
+      "Expected Loss": 514877.5819705712,
+      "PD Uplift vs Base": 0.0,
+      "EL Uplift vs Base": 0.0
+    },
+    {
+      "Scenario": "Adverse",
+      "Mean PD": 0.4155757781392551,
+      "Portfolio EAD": 3440094.0,
+      "Expected Loss": 921262.0760326674,
+      "PD Uplift vs Base": 0.38179800526567864,
+      "EL Uplift vs Base": 0.7892837215921433
+    },
+    {
+      "Scenario": "Severe",
+      "Mean PD": 0.5490736611073552,
+      "Portfolio EAD": 3896741.0,
+      "Expected Loss": 1298798.528348147,
+      "PD Uplift vs Base": 0.8256812104381868,
+      "EL Uplift vs Base": 1.5225385097896575
+    }
+  ],
+  "top_features": [
+    {
+      "feature": "purpose_A46",
+      "importance": 0.05310043085957092
+    },
+    {
+      "feature": "checking_status_A14",
+      "importance": 0.04903350156746345
+    },
+    {
+      "feature": "credit_history_A34",
+      "importance": 0.042210217406506885
+    },
+    {
+      "feature": "property_A124",
+      "importance": 0.036296223536561714
+    },
+    {
+      "feature": "savings_status_A61",
+      "importance": 0.03624641744625058
+    },
+    {
+      "feature": "employment_since_A74",
+      "importance": 0.034657224559822515
+    },
+    {
+      "feature": "foreign_worker_A202",
+      "importance": 0.034512328284074585
+    },
+    {
+      "feature": "foreign_worker_A201",
+      "importance": 0.0344077236585159
+    },
+    {
+      "feature": "checking_status_A11",
+      "importance": 0.033311706782237424
+    },
+    {
+      "feature": "savings_status_A64",
+      "importance": 0.03010735394018443
+    }
+  ]
+}
