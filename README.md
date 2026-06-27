@@ -58,7 +58,132 @@
 PD = P(bad credit = 1 | borrower features)
 ```
 
-### 3.3 特征类型
+### 3.3 原始编码样本如何解读
+
+原始 `german.data` 文件没有表头，每一行由 21 个字段组成。前 20 个字段是借款人特征，第 21 个字段是标签：
+
+```text
+1 = good credit
+2 = bad credit
+```
+
+为了让原始编码更容易理解，下面给出 3 条差异较大的样本解析。
+
+#### 示例 1：低金额、短期限、最终为 good credit
+
+原始记录：
+
+```text
+A11 6 A34 A43 1169 A65 A75 4 A93 A101 4 A121 67 A143 A152 2 A173 1 A192 A201 1
+```
+
+逐字段解释：
+
+| 字段 | 原始值 | 含义 |
+|---|---|---|
+| checking_status | A11 | 支票账户余额 < 0 DM |
+| duration_months | 6 | 贷款期限 6 个月 |
+| credit_history | A34 | 关键账户 / 其他地方也有信用记录 |
+| purpose | A43 | 用途：radio/television |
+| credit_amount | 1169 | 贷款金额 1169 |
+| savings_status | A65 | 储蓄账户未知 / 无储蓄账户 |
+| employment_since | A75 | 当前工作年限 >= 7 年 |
+| installment_rate_pct | 4 | 分期还款占可支配收入比例为 4 |
+| personal_status_sex | A93 | 男性，单身 |
+| other_debtors | A101 | 无共同借款人/担保人 |
+| present_residence_since | 4 | 当前住所居住年限为 4 |
+| property | A121 | 房地产 |
+| age_years | 67 | 年龄 67 岁 |
+| other_installment_plans | A143 | 无其他分期付款计划 |
+| housing | A152 | 自有住房 |
+| existing_credits | 2 | 当前银行已有信用数量为 2 |
+| job | A173 | 技术工/正式雇员 |
+| num_dependents | 1 | 需赡养人数为 1 |
+| telephone | A192 | 有本人名下登记电话 |
+| foreign_worker | A201 | 外籍劳工：是 |
+| target | 1 | good credit |
+
+翻译成自然语言：
+
+> 一个 67 岁、男性单身、有长期工作、拥有自住房和房地产、贷款 1169、期限 6 个月、用途为收音机/电视、最终被标记为 good credit 的借款人样本。
+
+#### 示例 2：高金额、长期限、年轻借款人，最终为 bad credit
+
+原始记录：
+
+```text
+A12 48 A32 A43 5951 A61 A73 2 A92 A101 2 A121 22 A143 A152 1 A173 1 A191 A201 2
+```
+
+逐字段解释：
+
+| 字段 | 原始值 | 含义 |
+|---|---|---|
+| checking_status | A12 | 支票账户余额 0 到 200 DM |
+| duration_months | 48 | 贷款期限 48 个月 |
+| credit_history | A32 | 现有贷款均按期偿还 |
+| purpose | A43 | 用途：radio/television |
+| credit_amount | 5951 | 贷款金额 5951 |
+| savings_status | A61 | 储蓄账户 < 100 DM |
+| employment_since | A73 | 当前工作年限 1 到 4 年 |
+| installment_rate_pct | 2 | 分期还款占可支配收入比例为 2 |
+| personal_status_sex | A92 | 女性，离异/分居/已婚 |
+| other_debtors | A101 | 无共同借款人/担保人 |
+| present_residence_since | 2 | 当前住所居住年限为 2 |
+| property | A121 | 房地产 |
+| age_years | 22 | 年龄 22 岁 |
+| other_installment_plans | A143 | 无其他分期付款计划 |
+| housing | A152 | 自有住房 |
+| existing_credits | 1 | 当前银行已有信用数量为 1 |
+| job | A173 | 技术工/正式雇员 |
+| num_dependents | 1 | 需赡养人数为 1 |
+| telephone | A191 | 无本人名下登记电话 |
+| foreign_worker | A201 | 外籍劳工：是 |
+| target | 2 | bad credit |
+
+翻译成自然语言：
+
+> 一个 22 岁、女性、工作年限 1 到 4 年、贷款 5951、期限 48 个月、用途为收音机/电视、储蓄账户较低、无本人名下电话、最终被标记为 bad credit 的借款人样本。
+
+#### 示例 3：有担保人、租房、存在其他银行分期计划，最终为 bad credit
+
+原始记录：
+
+```text
+A11 16 A34 A40 2625 A61 A75 2 A93 A103 4 A122 43 A141 A151 1 A173 1 A192 A201 2
+```
+
+逐字段解释：
+
+| 字段 | 原始值 | 含义 |
+|---|---|---|
+| checking_status | A11 | 支票账户余额 < 0 DM |
+| duration_months | 16 | 贷款期限 16 个月 |
+| credit_history | A34 | 关键账户 / 其他地方也有信用记录 |
+| purpose | A40 | 用途：new car |
+| credit_amount | 2625 | 贷款金额 2625 |
+| savings_status | A61 | 储蓄账户 < 100 DM |
+| employment_since | A75 | 当前工作年限 >= 7 年 |
+| installment_rate_pct | 2 | 分期还款占可支配收入比例为 2 |
+| personal_status_sex | A93 | 男性，单身 |
+| other_debtors | A103 | 有担保人 |
+| present_residence_since | 4 | 当前住所居住年限为 4 |
+| property | A122 | 建房储蓄协议/人寿保险 |
+| age_years | 43 | 年龄 43 岁 |
+| other_installment_plans | A141 | 其他分期付款计划：银行 |
+| housing | A151 | 租房 |
+| existing_credits | 1 | 当前银行已有信用数量为 1 |
+| job | A173 | 技术工/正式雇员 |
+| num_dependents | 1 | 需赡养人数为 1 |
+| telephone | A192 | 有本人名下登记电话 |
+| foreign_worker | A201 | 外籍劳工：是 |
+| target | 2 | bad credit |
+
+翻译成自然语言：
+
+> 一个 43 岁、男性单身、长期工作但支票账户余额为负、贷款 2625、期限 16 个月、用途为新车、有担保人、租房、还存在其他银行分期付款计划、最终被标记为 bad credit 的借款人样本。
+
+### 3.4 特征类型
 
 数值型变量包括：
 
@@ -621,4 +746,3 @@ outputs/
 - 输出验证报告。
 
 这与 Quantitative Risk / Model Validation 岗位中的工作要求高度相关，尤其是信用风险模型、定量测试、压力测试、模型文档和模型局限性分析。
-
